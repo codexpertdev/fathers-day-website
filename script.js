@@ -62,10 +62,11 @@
 
   function updateCountdown() {
     const now = new Date();
-    const endOfDay = new Date(now);
-    endOfDay.setHours(23, 59, 59, 999);
 
-    const diff = endOfDay - now;
+    // Father's Day 2027 (June 20, 2027 at midnight)
+    const targetDate = new Date('2027-06-20T00:00:00');
+    const diff = targetDate - now;
+    
     if (diff <= 0) {
       hoursEl.textContent = '00';
       minutesEl.textContent = '00';
@@ -73,13 +74,15 @@
       return;
     }
 
-    const h = Math.floor(diff / 3600000);
-    const m = Math.floor((diff % 3600000) / 60000);
-    const s = Math.floor((diff % 60000) / 1000);
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
 
-    hoursEl.textContent = String(h).padStart(2, '0');
-    minutesEl.textContent = String(m).padStart(2, '0');
-    secondsEl.textContent = String(s).padStart(2, '0');
+    document.getElementById('days').textContent = String(days).padStart(3, '0');
+    hoursEl.textContent = String(hours).padStart(2, '0');
+    minutesEl.textContent = String(minutes).padStart(2, '0');
+    secondsEl.textContent = String(seconds).padStart(2, '0');
   }
 
   updateCountdown();
